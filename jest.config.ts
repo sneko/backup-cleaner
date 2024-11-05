@@ -16,7 +16,6 @@ dotenv.config({ path: path.resolve(__dirname, './.env.jest.local') });
 // Add any custom config to be passed to Jest
 const customJestConfig: Config = {
   preset: 'ts-jest',
-  cacheDirectory: typeof process.env.JEST_CACHE_PATH === 'string' ? process.env.JEST_CACHE_PATH : undefined, // Used to specify the default cache directory in our CI/CD environment
   setupFilesAfterEnv: [],
   moduleDirectories: ['node_modules', '<rootDir>/'],
   moduleNameMapper: {
@@ -39,5 +38,11 @@ const customJestConfig: Config = {
     ],
   },
 };
+
+// Used to specify the default cache directory in our CI/CD environment
+// Note: it cannot be set to undefined directly into the config object because Jest would take it due to the object key existing, so using a separate condition
+if (typeof process.env.JEST_CACHE_PATH === 'string') {
+  customJestConfig.cacheDirectory = process.env.JEST_CACHE_PATH;
+}
 
 export default customJestConfig;

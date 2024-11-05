@@ -14,6 +14,8 @@ This library is a cleaner of backups set onto a S3 bucket, it will fit your need
 
 ## Usage
 
+**A deletion tool must be used with caution! The maintainers cannot be responsible for any data loss.**
+
 ### Basic
 
 ```shell

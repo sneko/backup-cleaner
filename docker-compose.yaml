@@ -1,5 +1,3 @@
-version: '3.5'
-
 #
 # [IMPORTANT] `container_name` properties are prefixed by the project name to avoid conflicting with other project volumes
 #
@@ -15,8 +13,8 @@ services:
     volumes:
       - minio:/data
     ports:
-      - '${DOCKER_COMPOSE_MINIO_WEB_PORT_BINDING:-9000:9000}'
-      - '${DOCKER_COMPOSE_MINIO_PORT_BINDING:-9001:9001}'
+      - '${DOCKER_COMPOSE_MINIO_PORT_BINDING:-9000:9000}'
+      - '${DOCKER_COMPOSE_MINIO_CONSOLE_PORT_BINDING:-9001:9001}'
     networks:
       - buc
     restart: unless-stopped

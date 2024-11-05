@@ -29,8 +29,8 @@ export async function setupMinio(): Promise<MinioContainer> {
     .withEnvironment({
       ...defaultEnvironment,
 
-      DOCKER_COMPOSE_MINIO_WEB_PORT_BINDING: '9000', // To use a random port from the host
-      DOCKER_COMPOSE_MINIO_PORT_BINDING: '9001', // To use a random port from the host
+      DOCKER_COMPOSE_MINIO_PORT_BINDING: '9000', // To use a random port from the host
+      DOCKER_COMPOSE_MINIO_CONSOLE_PORT_BINDING: '9001', // To use a random port from the host
       MINIO_ROOT_USER: dummyUser,
       MINIO_ROOT_PASSWORD: dummyPassword,
     })
