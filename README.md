@@ -59,7 +59,7 @@ _If you don't use SSL to connect to your S3 server, you can use `S3_BUCKET_USE_S
 
 For us the best idea is to define a scheduler directly into the pipeline of either your application to back up if it's app-specific, or the global infrasctructure if it's about shared resources.
 
-We provide [a few pipeline examples in to the `examples` folder](./examples/). Feel free to adapt them to your needs.
+We provide [a few pipeline examples into the `examples` folder](./examples/). Feel free to adapt them to your needs.
 
 ## Frequently Asked Questions
 
@@ -104,7 +104,7 @@ If it's an expected feature please open an issue.
 
 ## Contribute
 
-If you didn't face a specific issue but you are willing to help, please have a look at the reported issues https://github.com/sneko/backup-cleaner/issues. I will do my best to address your work, but keep in mind the maintenance of this project is in my spare time or on the time of other contributors.
+If you didn't face a specific issue but you are willing to help, please have a look at the [reported issues](https://github.com/sneko/backup-cleaner/issues). I will do my best to address your work, but keep in mind the maintenance of this project is in my spare time or on the time of other contributors.
 
 ### Setup
 
@@ -113,7 +113,7 @@ Make sure to use a Node.js version aligned with one specified into `.nvmrc`. The
 ```shell
 npm install
 docker compose up
-npm run cli -- clean ...
+npm run cli --- clean ...
 ```
 
 ### Testing
