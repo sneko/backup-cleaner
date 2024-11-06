@@ -1,0 +1,93 @@
+{
+  "name": "backup-cleaner",
+  "version": "0.0.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sneko/backup-cleaner.git"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "type": "module",
+  "module": "./dist/index.mjs",
+  "bin": {
+    "backup-cleaner": "./dist/cli/index.mjs"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "cli": "dotenv-run-script .env.test -- cli:unsecure",
+    "cli:unsecure": "tsx src/cli/index.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "npm run lint:es && npm run lint:ts",
+    "lint:es": "TIMING=1 eslint --ext .js,.jsx,.ts,.tsx,.mdx .",
+    "lint:ts": "tsc --noEmit --incremental false",
+    "test:unit": "npm run jest --- --ci --passWithNoTests",
+    "test:unit:watch": "npm run jest --- --watch",
+    "clean": "rm -rf dist && rm -rf node_modules",
+    "cm": "cz",
+    "playwright": "playwright",
+    "jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest",
+    "semantic-release": "semantic-release"
+  },
+  "dependencies": {
+    "@commander-js/extra-typings": "^11.1.0",
+    "@inquirer/prompts": "^3.3.0",
+    "chalk": "^5.3.0",
+    "date-fns": "^3.3.1",
+    "minio": "^8.0.2",
+    "ts-custom-error": "^3.3.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/chalk": "^2.2.0",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^20.9.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
+    "commitizen": "^4.3.0",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "dotenv": "^16.0.3",
+    "dotenv-run-script": "^0.2.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "jest": "^29.3.1",
+    "jest-environment-node": "^29.4.1",
+    "jest-environment-node-single-context": "^29.4.0",
+    "semantic-release": "24.0.0",
+    "testcontainers": "^9.6.0",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "tsup": "^8.1.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.2.2"
+  },
+  "packageManager": "npm@10.4.0",
+  "engines": {
+    "node": ">=16.15.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  }
+}

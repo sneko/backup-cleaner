@@ -1,0 +1,26 @@
+# tools settings folders
+/**/.*/**/*
+!.github/**/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+
+# dependencies
+node_modules
+
+# bundle
+dist/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env.local
+.env.test.local
+.env.jest.local
