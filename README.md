@@ -24,7 +24,7 @@ This library is a cleaner of backups set onto a S3 bucket, it will fit your need
 ### Using as date the timestamp from the file name
 
 ```shell
-npx backup-cleaner clean --date-marker name --group-pattern "database-AAA-backup-\\d+\\.sql\\.gz" --group-pattern "^subfolder/database-BBB-backup-\\d+\\.sql\\.gz$"
+npx backup-cleaner clean --date-marker name --group-pattern "database-AAA-backup-\d+\.sql\.gz" --group-pattern "^subfolder/database-BBB-backup-\d+\.sql\.gz$"
 ```
 
 This will match backups:
@@ -37,7 +37,7 @@ This will match backups:
 **It's important to note that in the S3 standard there is no `createdAt` property, there is only the `lastModified` one. Use it with caution because this date can be updated if you use versioning, or in case of a metadata modification depending on your S3 provider.** _(If you have a doubt, try to make your backups having the date in the file name, while adopting the 1st approach)_
 
 ```shell
-npx backup-cleaner clean --date-marker metadata --group-pattern "database-backup-.*\\.sql\\.gz"
+npx backup-cleaner clean --date-marker metadata --group-pattern "database-backup-.*\.sql\.gz"
 ```
 
 This will make a group for backups having the pattern `database-backup-RANDOM-DYNAMIC-STRING.sql.gz` in any folder.
@@ -59,7 +59,7 @@ _If you don't use SSL to connect to your S3 server, you can use `S3_BUCKET_USE_S
 
 For us the best idea is to define a scheduler directly into the pipeline of either your application to back up if it's app-specific, or the global infrasctructure if it's about shared resources.
 
-We provide [a few pipeline examples in to the `examples` folder](./examples/). Feel free to adapt them to your needs.
+We provide [a few pipeline examples into the `examples` folder](./examples/). Feel free to adapt them to your needs.
 
 ## Frequently Asked Questions
 
@@ -104,7 +104,7 @@ If it's an expected feature please open an issue.
 
 ## Contribute
 
-If you didn't face a specific issue but you are willing to help, please have a look at the reported issues https://github.com/sneko/backup-cleaner/issues. I will do my best to address your work, but keep in mind the maintenance of this project is in my spare time or on the time of other contributors.
+If you didn't face a specific issue but you are willing to help, please have a look at the [reported issues](https://github.com/sneko/backup-cleaner/issues). I will do my best to address your work, but keep in mind the maintenance of this project is in my spare time or on the time of other contributors.
 
 ### Setup
 
@@ -113,7 +113,7 @@ Make sure to use a Node.js version aligned with one specified into `.nvmrc`. The
 ```shell
 npm install
 docker compose up
-npm run cli -- clean ...
+npm run cli --- clean ...
 ```
 
 ### Testing

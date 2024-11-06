@@ -267,6 +267,14 @@ export async function clean(options: CleanOptionsType) {
 
       return;
     }
+  } else {
+    console.log(
+      `\nfiles that will be deleted:\n${filesToDelete
+        .map((fileToDelete) => {
+          return `- ${fileToDelete.name} (${formatDate(fileToDelete.date, 'PPPP')})\n`;
+        })
+        .join('')}`
+    );
   }
 
   if (options.dryRun) {

@@ -1,0 +1,35 @@
+name: Clean old S3 backups
+on:
+  schedule:
+    - cron: '0 7 * * 1,4' # Every monday and thursday at 7am, but it could be everyday with `0 7 * * *`
+  workflow_dispatch: # Allow triggering this pipeline manually
+concurrency:
+  # Prevent parallel cleaning due to deletion concurrency risks
+  group: cicd
+  cancel-in-progress: false
+jobs:
+  clean:
+    name: S3 backups clean
+    runs-on: ubuntu-latest
+    container:
+      image: node:20
+      env:
+        # [IMPORTANT] The following are configured into the repository settings `Secrets and variables > Actions`
+        # All are variables (they can be read and logged), but `S3_BUCKET_SECRET_KEY` is a secret (that cannot be read and logged)
+        # Feel free if necessary to set all as secrets... Also the group patterns below could be provided from secrets to not be committed
+        S3_BUCKET_ENDPOINT: ${{ vars.S3_BUCKET_ENDPOINT }}
+        S3_BUCKET_PORT: ${{ vars.S3_BUCKET_PORT }}
+        S3_BUCKET_REGION: ${{ vars.S3_BUCKET_REGION }}
+        S3_BUCKET_ACCESS_KEY: ${{ vars.S3_BUCKET_ACCESS_KEY }}
+        S3_BUCKET_SECRET_KEY: ${{ secrets.S3_BUCKET_SECRET_KEY }}
+        S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+    steps:
+      - name: Perform cleaning
+        run: | # Since it's a sensitive library you could choose to fix the version like `npx backup-cleaner@1.0.0 clean ...`
+          npx backup-cleaner clean \
+            --group-pattern "data/coolify/backups/coolify/coolify-db-hostdockerinternal/pg-dump-coolify-\d+\.dmp" \
+            --group-pattern "data/coolify/backups/databases/sneko-team-0/mariadb-database-cgso00woc0soc8wokcww80c4/mariadb-dump-sipres_ecommerce-\d+\.dmp" \
+            --group-pattern "data/coolify/backups/databases/sneko-team-0/postgresql-database-dc8kg4ggs0k4owo400os0ggk/pg-dump-postgres-\d+\.dmp" \
+            --group-pattern "data/coolify/backups/databases/sneko-team-0/postgresql-database-dc8kg4ggs0k4owo400os0ggk/pg-dump-sipres_core-\d+\.dmp" \
+            --date-marker name \
+            --ci
