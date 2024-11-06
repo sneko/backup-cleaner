@@ -17,9 +17,9 @@
     "README.md"
   ],
   "type": "module",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "bin": {
-    "backup-cleaner": "./dist/cli/index.js"
+    "backup-cleaner": "./dist/cli/index.mjs"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
