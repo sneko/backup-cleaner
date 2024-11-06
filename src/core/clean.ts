@@ -252,9 +252,13 @@ export async function clean(options: CleanOptionsType) {
 
   if (options.prompting) {
     const answer = await confirm({
-      message: `${filesToDelete.map((fileToDelete) => {
-        return `- ${fileToDelete.name} (${formatDate(fileToDelete.date, 'PPPP')})`;
-      })}\n\nare you sure you want to delete the ${filesToDelete.length} files listed above? (there are currently ${consideredFilesCount} files matching your group patterns)`,
+      message: `\n${filesToDelete
+        .map((fileToDelete) => {
+          return `- ${fileToDelete.name} (${formatDate(fileToDelete.date, 'PPPP')})\n`;
+        })
+        .join(
+          ''
+        )}\nare you sure you want to delete the ${filesToDelete.length} files listed above? (there are currently ${consideredFilesCount} files matching your group patterns)`,
       default: false,
     });
 
