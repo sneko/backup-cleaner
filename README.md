@@ -24,7 +24,7 @@ This library is a cleaner of backups set onto a S3 bucket, it will fit your need
 ### Using as date the timestamp from the file name
 
 ```shell
-npx backup-cleaner clean --date-marker name --group-pattern "database-AAA-backup-\\d+\\.sql\\.gz" --group-pattern "^subfolder/database-BBB-backup-\\d+\\.sql\\.gz$"
+npx backup-cleaner clean --date-marker name --group-pattern "database-AAA-backup-\d+\.sql\.gz" --group-pattern "^subfolder/database-BBB-backup-\d+\.sql\.gz$"
 ```
 
 This will match backups:
@@ -37,7 +37,7 @@ This will match backups:
 **It's important to note that in the S3 standard there is no `createdAt` property, there is only the `lastModified` one. Use it with caution because this date can be updated if you use versioning, or in case of a metadata modification depending on your S3 provider.** _(If you have a doubt, try to make your backups having the date in the file name, while adopting the 1st approach)_
 
 ```shell
-npx backup-cleaner clean --date-marker metadata --group-pattern "database-backup-.*\\.sql\\.gz"
+npx backup-cleaner clean --date-marker metadata --group-pattern "database-backup-.*\.sql\.gz"
 ```
 
 This will make a group for backups having the pattern `database-backup-RANDOM-DYNAMIC-STRING.sql.gz` in any folder.
