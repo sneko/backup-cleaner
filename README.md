@@ -28,6 +28,7 @@ It's possible to prefill S3 information into environment variables to avoid typi
 
 - `S3_BUCKET_ENDPOINT`
 - `S3_BUCKET_PORT`
+- `S3_BUCKET_REGION`
 - `S3_BUCKET_ACCESS_KEY`
 - `S3_BUCKET_SECRET_KEY`
 

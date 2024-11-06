@@ -12,6 +12,7 @@ export const S3BucketConfigSchema = z
 
       return value;
     }, z.coerce.boolean()),
+    region: z.string().min(1),
     accessKey: z.string().min(1),
     secretKey: z.string().min(1),
     name: z.string().min(1),
@@ -24,6 +25,7 @@ export const S3BucketEnvironmentVariablesSchema = z
     S3_BUCKET_ENDPOINT: S3BucketConfigSchema.shape.endpoint,
     S3_BUCKET_PORT: S3BucketConfigSchema.shape.port,
     S3_BUCKET_USE_SSL: S3BucketConfigSchema.shape.useSsl.optional().default(true),
+    S3_BUCKET_REGION: S3BucketConfigSchema.shape.region,
     S3_BUCKET_ACCESS_KEY: S3BucketConfigSchema.shape.accessKey,
     S3_BUCKET_SECRET_KEY: S3BucketConfigSchema.shape.secretKey,
     S3_BUCKET_NAME: S3BucketConfigSchema.shape.name,

@@ -12,6 +12,7 @@ export interface MinioContainer {
     endpoint: string;
     port: number;
     useSsl: boolean;
+    region: string;
     accessKey: string;
     secretKey: string;
   };
@@ -57,6 +58,7 @@ export async function setupMinio(): Promise<MinioContainer> {
       endpoint: ip,
       port: mappedPort,
       useSsl: false,
+      region: 'us-east-1',
       accessKey: dummyUser,
       secretKey: dummyPassword,
     },

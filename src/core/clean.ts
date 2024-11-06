@@ -213,6 +213,7 @@ export async function clean(options: CleanOptionsType) {
     endPoint: config.endpoint,
     port: config.port,
     useSSL: config.useSsl,
+    region: config.region,
     accessKey: config.accessKey,
     secretKey: config.secretKey,
   });

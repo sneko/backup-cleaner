@@ -22,6 +22,7 @@ describe('minio', () => {
     process.env.S3_BUCKET_ENDPOINT = minio.bucket.endpoint;
     process.env.S3_BUCKET_PORT = minio.bucket.port.toString();
     process.env.S3_BUCKET_USE_SSL = minio.bucket.useSsl.toString();
+    process.env.S3_BUCKET_REGION = minio.bucket.region;
     process.env.S3_BUCKET_ACCESS_KEY = minio.bucket.accessKey;
     process.env.S3_BUCKET_SECRET_KEY = minio.bucket.secretKey;
     process.env.S3_BUCKET_NAME = bucketName;
@@ -30,6 +31,7 @@ describe('minio', () => {
       endPoint: minio.bucket.endpoint,
       port: minio.bucket.port,
       useSSL: minio.bucket.useSsl,
+      region: minio.bucket.region,
       accessKey: minio.bucket.accessKey,
       secretKey: minio.bucket.secretKey,
     });
