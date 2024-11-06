@@ -47,6 +47,7 @@ export const CleanOptions = RulesSchema.merge(
     dateMarker: DateMarkerSchema,
     dryRun: z.boolean(),
     prompting: Prompting,
+    referenceDate: z.date().optional(),
   })
 ).strip();
 export type CleanOptionsType = z.infer<typeof CleanOptions>;
@@ -134,8 +135,8 @@ export function extractDateFromFilename(filename: string): Date {
   }
 }
 
-export function getFilesToDeleteFromGroup(group: File[], currentDate: Date, rules: RulesSchemaType): File[] {
-  const referenceDate = subDays(startOfDay(currentDate), rules.skipRecentDays);
+export function getFilesToDeleteFromGroup(group: File[], referenceDate: Date, rules: RulesSchemaType): File[] {
+  referenceDate = subDays(startOfDay(referenceDate), rules.skipRecentDays);
 
   const dailyStart = subDays(referenceDate, rules.dailyPeriod);
   const weeklyStart = subWeeks(referenceDate, rules.weeklyPeriod);
@@ -212,7 +213,7 @@ export async function clean(options: CleanOptionsType) {
   const minioClient = new Client({
     endPoint: config.endpoint,
     port: config.port,
-    useSSL: true,
+    useSSL: config.useSsl,
     accessKey: config.accessKey,
     secretKey: config.secretKey,
   });
@@ -228,10 +229,13 @@ export async function clean(options: CleanOptionsType) {
 
   const groupedFiles = makeGroupsFromFiles(files, options.groupPatterns);
 
-  const currentDate = new Date();
+  let consideredFilesCount = 0;
+  const referenceDate = options.referenceDate || new Date(); // It's allowed to customize it programmatically but mainly for tests
   const filesToDelete: File[] = [];
   for (const group of groupedFiles) {
-    const groupFilesToDelete = getFilesToDeleteFromGroup(group, currentDate, options);
+    consideredFilesCount += group.length;
+
+    const groupFilesToDelete = getFilesToDeleteFromGroup(group, referenceDate, options);
 
     filesToDelete.push(...groupFilesToDelete);
   }
@@ -240,13 +244,17 @@ export async function clean(options: CleanOptionsType) {
     console.log(`there is no file to delete according to the chosen options`);
 
     return;
+  } else if (filesToDelete.length === consideredFilesCount) {
+    throw new Error(
+      `all the files matching your group patterns are eligible for deletion, this is not normal, please review the retention rules set`
+    );
   }
 
   if (options.prompting) {
     const answer = await confirm({
       message: `${filesToDelete.map((fileToDelete) => {
         return `- ${fileToDelete.name} (${formatDate(fileToDelete.date, 'PPPP')})`;
-      })}\n\nare you sure you want to delete the ${filesToDelete.length} files listed above?`,
+      })}\n\nare you sure you want to delete the ${filesToDelete.length} files listed above? (there are currently ${consideredFilesCount} files matching your group patterns)`,
       default: false,
     });
 

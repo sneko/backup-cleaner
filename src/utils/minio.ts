@@ -8,7 +8,13 @@ const __root_dirname = process.cwd();
 
 export interface MinioContainer {
   container: StartedGenericContainer;
-  url: string;
+  bucket: {
+    endpoint: string;
+    port: number;
+    useSsl: boolean;
+    accessKey: string;
+    secretKey: string;
+  };
 }
 
 export async function setupMinio(): Promise<MinioContainer> {
@@ -28,7 +34,6 @@ export async function setupMinio(): Promise<MinioContainer> {
   const environment = await new DockerComposeEnvironment(composeFilePath, composeFile)
     .withEnvironment({
       ...defaultEnvironment,
-
       DOCKER_COMPOSE_MINIO_PORT_BINDING: '9000', // To use a random port from the host
       DOCKER_COMPOSE_MINIO_CONSOLE_PORT_BINDING: '9001', // To use a random port from the host
       MINIO_ROOT_USER: dummyUser,
@@ -44,12 +49,16 @@ export async function setupMinio(): Promise<MinioContainer> {
   });
 
   const ip = container.getHost();
-  const mappedPort = container.getMappedPort(9001);
-
-  const url = `s3://${dummyUser}:${dummyPassword}@${ip}:${mappedPort}`;
+  const mappedPort = container.getMappedPort(9000);
 
   return {
     container,
-    url,
+    bucket: {
+      endpoint: ip,
+      port: mappedPort,
+      useSsl: false,
+      accessKey: dummyUser,
+      secretKey: dummyPassword,
+    },
   };
 }

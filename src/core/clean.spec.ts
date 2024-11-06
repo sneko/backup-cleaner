@@ -3,6 +3,7 @@ import { secondsToMilliseconds } from 'date-fns/secondsToMilliseconds';
 import { Client } from 'minio';
 
 import { extractDateFromFilename, getFilesToDeleteFromGroup, listFiles, makeGroupsFromFiles } from '@buc/src/core/clean';
+import { datesBeforeClean, datesDeletedAfterClean } from '@buc/src/fixtures/dates';
 
 const describeWhenManual = process.env.TEST_MANUAL === 'true' ? describe : describe.skip;
 const itWhenManual = process.env.TEST_MANUAL === 'true' ? it : it.skip;
@@ -268,37 +269,7 @@ describe('getFilesToDeleteFromGroup()', () => {
     const currentDate = parseISO('2024-01-13');
 
     const filesToDelete = getFilesToDeleteFromGroup(
-      [
-        { name: 'a', date: parseISO('2024-01-12') },
-        { name: 'a', date: parseISO('2024-01-11') },
-        { name: 'a', date: parseISO('2024-01-11') },
-        { name: 'a', date: parseISO('2024-01-10') },
-        { name: 'a', date: parseISO('2024-01-09') },
-        { name: 'a', date: parseISO('2024-01-08') },
-        { name: 'a', date: parseISO('2024-01-07') },
-        { name: 'a', date: parseISO('2024-01-06') },
-        { name: 'a', date: parseISO('2024-01-05') },
-        { name: 'a', date: parseISO('2024-01-04') },
-        { name: 'a', date: parseISO('2023-12-30') },
-        { name: 'a', date: parseISO('2023-12-29') },
-        { name: 'a', date: parseISO('2023-12-20') },
-        { name: 'a', date: parseISO('2023-12-19') },
-        { name: 'a', date: parseISO('2023-12-03') },
-        { name: 'a', date: parseISO('2023-12-02') },
-        { name: 'a', date: parseISO('2023-12-01') },
-        { name: 'a', date: parseISO('2023-11-26') },
-        { name: 'a', date: parseISO('2023-11-01') },
-        { name: 'a', date: parseISO('2023-10-26') },
-        { name: 'a', date: parseISO('2023-09-11') },
-        { name: 'a', date: parseISO('2023-09-10') },
-        { name: 'a', date: parseISO('2023-02-01') },
-        { name: 'a', date: parseISO('2023-01-01') },
-        { name: 'a', date: parseISO('2022-12-01') },
-        { name: 'a', date: parseISO('2022-11-01') },
-        { name: 'a', date: parseISO('2021-11-01') },
-        { name: 'a', date: parseISO('2021-01-01') },
-        { name: 'a', date: parseISO('2020-01-01') },
-      ],
+      datesBeforeClean.map((date) => ({ name: 'a', date: date })),
       currentDate,
       {
         dailyPeriod: 7,
@@ -309,19 +280,6 @@ describe('getFilesToDeleteFromGroup()', () => {
       }
     );
 
-    expect(filesToDelete).toStrictEqual([
-      { name: 'a', date: parseISO('2020-01-01') },
-      { name: 'a', date: parseISO('2021-01-01') },
-      { name: 'a', date: parseISO('2021-11-01') },
-      { name: 'a', date: parseISO('2022-12-01') },
-      { name: 'a', date: parseISO('2023-09-11') },
-      { name: 'a', date: parseISO('2023-11-26') },
-      { name: 'a', date: parseISO('2023-12-02') },
-      { name: 'a', date: parseISO('2023-12-03') },
-      { name: 'a', date: parseISO('2023-12-20') },
-      { name: 'a', date: parseISO('2023-12-30') },
-      { name: 'a', date: parseISO('2024-01-05') },
-      { name: 'a', date: parseISO('2024-01-11') },
-    ]);
+    expect(filesToDelete).toStrictEqual(datesDeletedAfterClean.map((date) => ({ name: 'a', date: date })));
   });
 });
