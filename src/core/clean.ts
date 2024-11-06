@@ -67,7 +67,6 @@ export interface File {
 
 export async function listFiles(minioClient: Client, bucketName: string): Promise<File[]> {
   return new Promise((resolve, reject) => {
-    const stream2 = minioClient.extensions.listObjectsV2WithMetadata(bucketName, undefined, true);
     const stream = minioClient.listObjectsV2(bucketName, undefined, true);
     const files: File[] = [];
 
