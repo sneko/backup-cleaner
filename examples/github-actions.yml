@@ -27,9 +27,7 @@ jobs:
       - name: Perform cleaning
         run: | # Since it's a sensitive library you could choose to fix the version like `npx backup-cleaner@1.0.0 clean ...`
           npx backup-cleaner clean \
-            --group-pattern "data/coolify/backups/coolify/coolify-db-hostdockerinternal/pg-dump-coolify-\d+\.dmp" \
-            --group-pattern "data/coolify/backups/databases/sneko-team-0/mariadb-database-cgso00woc0soc8wokcww80c4/mariadb-dump-sipres_ecommerce-\d+\.dmp" \
-            --group-pattern "data/coolify/backups/databases/sneko-team-0/postgresql-database-dc8kg4ggs0k4owo400os0ggk/pg-dump-postgres-\d+\.dmp" \
-            --group-pattern "data/coolify/backups/databases/sneko-team-0/postgresql-database-dc8kg4ggs0k4owo400os0ggk/pg-dump-sipres_core-\d+\.dmp" \
+            --group-pattern "database-AAA-backup-\d+\.sql\.gz" \
+            --group-pattern "^subfolder/database-BBB-backup-\d+\.sql\.gz$" \
             --date-marker name \
             --ci
