@@ -63,17 +63,17 @@ We provide [a few pipeline examples into the `examples` folder](./examples/). Fe
 
 ## Frequently Asked Questions
 
-### How to customize the retention rule?
+### How to customize the retention rules?
 
 The easiest way is to look at the CLI documentation with `npx backup-cleaner --help`.
 
-### What is daily/weekly/monthly/yearly periods?
+### What are daily/weekly/monthly/yearly periods?
 
-It keeps one backup per range, over N range in the past.
+It keeps one backup per range (daily/weekly/...), over N periods in the past.
 
 _For example: `--dailyPeriod 7`, it will keep one backup per day, over 7 days in the past._
 
-It you set a range period to 0, it means this range won't be saved.
+It you set a range period to 0, it means this range won't be taken into account.
 
 ### Why is specifying patterns mandatory?
 
@@ -108,7 +108,7 @@ If you didn't face a specific issue but you are willing to help, please have a l
 
 ### Setup
 
-Make sure to use a Node.js version aligned with one specified into `.nvmrc`. Then to use a local S3 server:
+Make sure to use a Node.js version aligned with the one specified into `.nvmrc`, and use a local S3 server:
 
 ```shell
 npm install
